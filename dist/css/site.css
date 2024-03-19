@@ -1,0 +1,97 @@
+.alert-dismissible {
+    padding-right: 0rem;
+}
+
+.opacity {
+    opacity: .5;
+}
+
+.login .nav-item .nav-link {
+    display: flex;
+}
+.login .nav-item .nav-link  p {
+    padding-left: 4px;
+
+}
+
+ label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: normal;
+}
+
+.wrapper-inner-card {
+    padding: .5rem 0;
+}
+
+.wrapper-inner-card .btn.back {
+/* background-color: #343a40; */
+
+}
+.wrapper-inner-card .btn.back a {
+    color: white;
+    padding: 0 1rem;
+}
+
+.btn-dlt {
+    background-color: transparent;
+    border: none;
+    color: red ;
+    /* background-color: red; */
+}
+
+.btn-info {
+    background-color: transparent;
+    color: green;
+    /* background-color: red; */
+}
+
+.custom-btn {
+    background-color: transparent;
+    border: none;
+    /* font-size: 2rem; */
+}
+
+.btn-green {
+    margin-top: 3rem;
+}
+
+.cus-btn .col-2{
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.custom-btn.del {
+
+    color: red;
+    fill: red;
+}
+
+#custom-payment-terms {
+    max-width: 4rem;;
+}
+.test {
+    /* background-color: #343a40 ; */
+}
+
+
+element.style {
+}
+.error-page>.error-content {
+    margin-left: 0;
+}
+
+.alloy-item {
+    /* background-color: rgba(0,0,0,.03); */
+}
+
+.logo.brand {
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.logo.brand img {
+    height: 3.3rem;
+}
+
+.see {
+    text-transform: capitalize;
+}
