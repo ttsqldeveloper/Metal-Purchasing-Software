@@ -1,0 +1,188 @@
+@model MPA.Models.CreateOrderPageVM
+
+@{
+ViewData["Title"] = "Add New Tenants";
+}
+
+<form asp-action="CreateOrder" enctype="multipart/form-data" class="">
+    <div class="card card-primary mb-5 card-outline">
+        <div class="card-header">
+            <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Create An Order</h3>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </div>
+        </div>
+        <div class="col-md-12 card-body">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="">Supplier</label>
+                    @Html.DropDownListFor(q => q.OrderVM.SupplierId, new SelectList(Model.SupplierList, "Value",
+                    "Text"), " Please Select Supplier",
+                    new { @class = "form-control", @required = "required" })
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    <label asp-for="OrderVM.ExpectedDate" for="required-delivery-date"></label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="date" enter date" asp-for="OrderVM.ExpectedDate"
+                            class="form-control datetimepicker-input" required data-target="#reservationdate" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="OrderVM.LMERule" class="control-label"></label>
+                    <select asp-for="OrderVM.LMERule" required asp-items="@MPA.Utility.Helper.GetLMERuleDropDown()"
+                        class="form-control">
+                        <option value="">Please Select LME Rule</option>
+                    </select>
+                    <span asp-validation-for="OrderVM.LMERule" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    <label asp-for="OrderVM.PaymentTerms" class="control-label"></label>
+
+                    <div class="custom-control custom-radio">
+                        <input asp-for="OrderVM.isCustomPaymentTerms" class="custom-control-input" type="radio"
+                            id="customRadio1" checked="" value="false">
+                        <label for="customRadio1" class="custom-control-label">Default Payment Terms</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input asp-for="OrderVM.isCustomPaymentTerms" class="custom-control-input" type="radio"
+                            id="customRadio2" value="true">
+                        <label for="customRadio2" class="custom-control-label">Custom Payment Terms</label>
+
+                        (
+                        <input asp-for="OrderVM.PaymentTerms" placeholder="" type="number" class=""
+                            id="custom-payment-terms" step="any" value="" />
+                        ) Days after Delivery 
+
+                    </div>
+
+                    <!--     asp-items="@MPA.Utility.Helper.GetPaymentTermsDropDown()" class="form-control"> -->
+                    <!--     <option value="">Please Select Payment Terms</option> -->
+                    <!-- </select> -->
+                    <span asp-validation-for="OrderVM.PaymentTerms" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="alloy-list">
+        @Html.EditorFor(f => f.AlloyOrderList)
+    </div>
+
+    <div class="form-row d-flex">
+        <div class="form-group col-md-2 mr-auto">
+            <span class="btn btn-success col fileinput-button dz-clickable" id="add-alloy-btn">
+                <i class="fas fa-plus"></i>
+                <span>Alloy</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-row py-1 d-flex">
+        <div class="form-group col-md-2 ml-auto ">
+            <button type="submit" value="Validate"
+                class="btn btn-primary col fileinput-button dz-clickable">Next</button>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+
+<script>
+
+    $(function () {
+
+        function AddAlloy() {
+            var i = $(".alloy-order").length;
+            var n = `
+
+<div class="  alert alert-dismissible card card-primary alloy-order mb-4 card-outline">
+  <div class="col-md-12 card-body">
+
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+<div class="form-row">
+<div class="form-group col-md-12 d-flex ">
+          <label asp-for="Area" for="inputState"> @Html.DisplayNameFor(model => model.AlloyOrderVM.Area)</label>
+
+                        <div class="ml-3 custom-control custom-radio">
+   <input class="custom-control-input" type="radio" id="area${i}" name="AlloyOrderList[${i}].Area" value="Rolled" checked="">
+
+   <label for="area${i}" class="custom-control-label">Rolled</label>
+                        </div>
+
+                        <div class="ml-3 custom-control custom-radio">
+   <input class="custom-control-input" type="radio" id="areaa${i}" name="AlloyOrderList[${i}].Area" value="Extrusion" >
+   <label for="areaa${i}" class="custom-control-label">Extrusion</label>
+                        </div>
+
+        </div>
+                    </div>
+
+
+        <div class=" form-row">
+            <div class="form-group col-md-6">
+              <label for=""> @Html.DisplayNameFor(model => model.AlloyOrderVM)</label>
+    <select name="AlloyOrderList[${i}].AlloyId"  id="inputState" required class="form-control">
+        <option>Please Select Alloy</option> 
+        @for(var i = 0; i < Model.AlloyList.Count(); i++)
+            {<option value="@Model.AlloyList.ElementAt(i).Value"> @Model.AlloyList.ElementAt(i).Text </option>}
+                  </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="order-mass"> @Html.DisplayNameFor(model => model.AlloyOrderVM.Mass)</label>
+              <input asp-for="OrderMass" 
+                 name="AlloyOrderList[${i}].Mass" 
+               data-inputmask-alias="decimal" data-inputmask-inputformat="" data-mask
+                 class="form-control" 
+              id="order-mass" required /> 
+            </div>
+      </div>
+
+      <div class="form-row">
+            <div class="form-group col-md-6">
+              <label asp-for="PricePerMass" for="price-per-ton"> @Html.DisplayNameFor(model => model.AlloyOrderVM.PricePerMass)</label>
+              <input 
+                   name="AlloyOrderList[${i}].PricePerMass" 
+                   class="loan-input form-control" 
+                   id="price-per-ton" required 
+                   data-inputmask-alias="currency" data-inputmask-inputformat="" data-mask
+               /> 
+            </div>
+        <div class="form-group col-md-6">
+          <label asp-for="RullingLME" for="RullingLME"> @Html.DisplayNameFor(model => model.AlloyOrderVM.RullingLME)</label>
+              <input 
+              name="AlloyOrderList[${i}].RullingLME" 
+             class="form-control" required 
+              id="RullingLME" 
+            data-inputmask-alias="currency" data-inputmask-inputformat="" data-mask
+/> 
+        </div>
+        </div>
+
+</div>
+</div>
+`
+            $("#alloy-list").append(n);
+
+            $('[data-mask]').inputmask()
+
+        }
+
+        AddAlloy();
+
+        $("#add-alloy-btn").click(AddAlloy);
+
+    });
+</script>
+}

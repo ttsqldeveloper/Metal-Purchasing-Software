@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MPA.Data
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+
+    <ul class="login nav nav-pills navbar-nav ml-auto">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-black" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                    <i class="fas fa-user-alt"></i>
+                    <p>@User.Identity.Name!</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login">
+                    <button type="submit" class="nav-link btn btn-link text-black">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                    </button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item active">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+                    <i class="fas fa-user"></i>
+                    <p>Login</p>
+                </a>
+            </li>
+        }
+    </ul>

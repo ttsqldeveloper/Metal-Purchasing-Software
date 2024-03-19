@@ -1,0 +1,195 @@
+@model MPA.Models.OrderPageVM
+
+@{
+ViewData["Title"] = "Index";
+}
+
+<div class="card card-primary mb-5 card-outline">
+    <div class="card-header ">
+        <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+            <h3 class="card-title">Orders</h3>
+            <ul class="nav " id="custom-content-above-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pending-orders-tab" data-toggle="pill" href="#pending-orders"
+                        role="tab" aria-controls="pending-orders" aria-selected="true">Not Received</a>
+                </li>
+                <li class="nv-item">
+                    <a class="nav-link" id="incomplete-order-tab" data-toggle="pill" href="#incomplete-order" role="tab"
+                        aria-controls="incomplete-order" aria-selected="false">Incomplete Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="all-orders-tab" data-toggle="pill" href="#all-orders" role="tab"
+                        aria-controls="all-orders" aria-selected="false">All Orders</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="card-body p-0">
+
+        <div class="tab-content" id="custom-content-above-tabContent">
+            <div class="tab-pane fade show active" id="pending-orders" role="tabpanel"
+                aria-labelledby="pending-orders-tab">
+                @if ( Model.OpenOrders.Count() == 0 )
+                {
+                <div class="error-page">
+                    <div class="error-content py-5">
+                        <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! No Received Orders </h3>
+                    </div>
+                    <!-- /.error-content -->
+                </div>
+                } else {
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Expected Date</th>
+                            <th>Payment Terms</th>
+                            <th>Total Mass</th>
+                            <th>No. Of Alloys</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OpenOrders)
+                        {
+                        <tr>
+                            <td> # <b> @Html.DisplayFor(modelItem => item.OrderNumber)</b></td>
+                            <td> @item.Date.ToString("dd MMMM yyyy") </td>
+                            <td> @item.Supplier.Name </td>
+                            <td> @item.ExpectedDate.ToString("dd MMMM yyyy") </td>
+                            <td> @Html.DisplayFor(modelItem => item.PaymentTerms) Delivery Days </td>
+                            <td> @Html.DisplayFor(modelItem => item.TotalMass) Kg </td>
+                            <td> @item.NumberOfAlloy </td>
+                            <td>@item.Status </td>
+                            <td>
+                                <a asp-area="" asp-route-id="@item.OrderNumber" asp-controller="Orders"
+                                    asp-action="Details">view</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
+            <div class="tab-pane fade" id="incomplete-order" role="tabpanel" aria-labelledby="incomplete-order-tab">
+                @if ( Model.Incomplete.Count() == 0 )
+                {
+                <div class="error-page">
+                    <div class="error-content py-5">
+                        <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! No Received Orders </h3>
+                    </div>
+                    <!-- /.error-content -->
+                </div>
+                } else {
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Expected Date</th>
+                            <th>Payment Terms</th>
+                            <th>Total Mass</th>
+                            <th>No. Of Alloys</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Incomplete)
+                        {
+                        <tr>
+                            <td> # <b> @Html.DisplayFor(modelItem => item.OrderNumber)</b></td>
+                            <td> @item.Date.ToString("dd MMMM yyyy") </td>
+                            <td> @item.Supplier.Name </td>
+                            <td> @item.ExpectedDate.ToString("dd MMMM yyyy") </td>
+                            <td> @Html.DisplayFor(modelItem => item.PaymentTerms) Delivery Days </td>
+                            <td> @Html.DisplayFor(modelItem => item.TotalMass) Kg </td>
+                            <td> @item.NumberOfAlloy </td>
+                            <td>@item.Status </td>
+                            <td>
+                                <a asp-area="" asp-route-id="@item.OrderNumber" asp-controller="Orders"
+                                    asp-action="Details">view</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
+            <div class="tab-pane fade" id="all-orders" role="tabpanel" aria-labelledby="all-orders-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Expected Date</th>
+                            <th>Payment Terms</th>
+                            <th>Total Mass</th>
+                            <th>No. Of Alloys</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AllOrders)
+                        {
+                        <tr>
+                            <td> # <b> @Html.DisplayFor(modelItem => item.OrderNumber)</b></td>
+                            <td> @item.Date.ToString("dd MMMM yyyy") </td>
+                            <td> @* @item.Supplier.Name *@ </td>
+                            <td> @item.ExpectedDate.ToString("dd MMMM yyyy") </td>
+                            <td> @Html.DisplayFor(modelItem => item.PaymentTerms) Delivery Days </td>
+                            <td> @Html.DisplayFor(modelItem => item.TotalMass) Kg </td>
+                            <td> @item.NumberOfAlloy </td>
+                            <td> @item.Status </td>
+                            <td>
+                                <a asp-area="" asp-route-id="@item.OrderNumber" asp-controller="Orders"
+                                    asp-action="Details">view</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/jszip/jszip.min.js"></script>
+<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+
+    /* $(function () { */
+    /*     $("#all-orders").DataTable({ */
+    /*         "responsive": false, "lengthChange": true, "autoWidth": true, */
+    /*     }); */
+    /*     $("#open-orders").DataTable({ */
+    /*         "responsive": false, "lengthChange": true, "autoWidth": true, */
+    /*     }); */
+    /* }); */
+
+</script>
+}

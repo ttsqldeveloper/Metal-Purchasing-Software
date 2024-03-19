@@ -1,0 +1,74 @@
+@model MPA.Models.PaymentSchedulePageVM
+
+@{
+ViewData["Title"] = "Payment Schedule";
+}
+
+
+@if (Model.ReceivedOrders.Count() == 0)
+{
+
+<div class="error-page">
+
+    <div class="error-content">
+        <h3><i class="fas fa-exclamation-triangle text-warning"></i>No, Open Recived</h3>
+        <button type="button" class="btn"><a class="btn btn-primary" asp-action="Create">Add Supplier</a></button>
+    </div>
+    <!-- /.error-content -->
+</div>
+
+} else
+{
+
+<div class="card card-primary mb-5 card-outline">
+    <div class="card-header ">
+        <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+            <h3 class="card-title">Payment Schedule</h3>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#Order No</th>
+                    <th>Gin Number</th>
+                    <th>Payment Terms</th>
+                    <th>Received Date</th>
+                    <th>Supplier</th>
+                    <th>Payment Date</th>
+                    <th>Total Price</th>
+                    <th>Aprove Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ReceivedOrders.Count; i++) { <tr>
+                    <td>
+                        @Model.ReceivedOrders[i].Order.OrderNumber
+                    </td>
+                    <td>
+                        @Model.ReceivedOrders[i].CopalcorGin
+                    </td>
+                    <td>@Model.ReceivedOrders[i].Order.PaymentTerms Delivery Days</td>
+                    <td> @Model.ReceivedOrders[i].Date.ToString("dd MMMM yyyy") </td>
+                    <td> @Model.ReceivedOrders[i].Order.Supplier.Name </td>
+                    <td>
+                        @Model.ReceivedOrders[i].Date.AddDays(Model.ReceivedOrders[i].Order.PaymentTerms).ToString("dd MMMM yyyy")
+                    </td>
+                    <td>
+                        <00000>
+                    </td>
+                    <td>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox-@i">
+                            <label for="customCheckbox-@i" class="custom-control-label"></label>
+                        </div>
+                    </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<button type="button" class="btn btn-block btn-primary mt-2"> Save Changes</button>
+}

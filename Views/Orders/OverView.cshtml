@@ -1,0 +1,128 @@
+@model MPA.Models.CreateOrderPageVM
+
+@{
+ViewData["Title"] = "Add New Tenants";
+}
+
+<div class="card card-primary mb-5 card-outline">
+    <div class="card-header">
+        <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+            <h3 class="card-title">Order Overview</h3>
+            <a asp-action="Index" class="btn btn-light">Cancel</a>
+        </div>
+    </div>
+    <div class="col-md-12 card-body">
+        <table class="table table">
+            <thead>
+                <tr>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.Supplier) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.LMERule) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.ExpectedDate) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.PaymentTerms) </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.tempSupplierName) </td>
+                    <td>@Html.DisplayFor(model => model.OrderVM.LMERule) </td>
+                    <td>@Model.OrderVM.ExpectedDate.ToString("dd MMMM yyyy") </td>
+                    <td> @Html.DisplayFor(model => model.OrderVM.PaymentTerms) Days Delivery </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+
+        <h5 class="pt-4">Alloy</h5>
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Mass</th>
+                    <th>Area</th>
+                    <th>Price Per Ton</th>
+                    <th>LME Rule</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AlloyOrderList)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlloyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mass) Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                    <td>
+                        R @Html.DisplayFor(modelItem => item.PricePerMass)
+                    </td>
+                    <td>
+                        R @Html.DisplayFor(modelItem => item.RullingLME)
+                    </td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+
+<form asp-action="EditCreate" enctype="multipart/form-data" class="">
+
+            <div class="d-none ">
+                <input asp-for="OrderVM.SupplierId" />
+                <input type="text" asp-for="OrderVM.ExpectedDate" />
+                <input asp-for="OrderVM.LMERule" />
+                <input asp-for="OrderVM.PaymentTerms" />
+
+                @for(int i = 0; i < Model.AlloyOrderList.Count(); i++ ) 
+                { <input value="@Model.AlloyOrderList[i].AlloyId" name="AlloyOrderList[@i].AlloyId" />
+                <input value="@Model.AlloyOrderList[i].Mass" name="AlloyOrderList[@i].Mass" />
+                <input value="@Model.AlloyOrderList[i].PricePerMass" name="AlloyOrderList[@i].PricePerMass" />
+                <input value="@Model.AlloyOrderList[i].RullingLME" name="AlloyOrderList[@i].RullingLME" />
+                <input value="@Model.AlloyOrderList[i].Area" name="AlloyOrderList[@i].Area" />
+                }
+
+            </div>
+
+            <div class="form-row pt-5 d-flex">
+                <div class="form-group col-md-2 mr-auto ">
+                    <button type="submit" value="Validate"
+                        class="btn btn-light col fileinput-button dz-clickable">Edit</button>
+                </div>
+            </div>
+
+        </form>
+
+        <form asp-action="SendOrder" enctype="multipart/form-data" class="">
+
+            <div class="d-none ">
+                <input asp-for="OrderVM.SupplierId" />
+                <input type="text" asp-for="OrderVM.ExpectedDate" value="@Model.OrderVM.ExpectedDate" />
+                <input asp-for="OrderVM.LMERule" value="@Model.OrderVM.LMERule" />
+                <input asp-for="OrderVM.PaymentTerms" value="@Model.OrderVM.PaymentTerms" />
+                <input asp-for="OrderVM.isCustomPaymentTerms" value="@Model.OrderVM.isCustomPaymentTerms" />
+
+                @for(int i = 0; i < Model.AlloyOrderList.Count(); i++ ) 
+                { <input value="@Model.AlloyOrderList[i].AlloyId" name="AlloyOrderList[@i].AlloyId" />
+                <input value="@Model.AlloyOrderList[i].Mass" name="AlloyOrderList[@i].Mass" />
+                <input value="@Model.AlloyOrderList[i].PricePerMass" name="AlloyOrderList[@i].PricePerMass" />
+                <input value="@Model.AlloyOrderList[i].RullingLME" name="AlloyOrderList[@i].RullingLME" />
+                <input value="@Model.AlloyOrderList[i].Area" name="AlloyOrderList[@i].Area" />
+                }
+
+            </div>
+
+            <div class="form-row py-1 d-flex">
+                <div class="form-group col-md-2 mr-auto ">
+                    <button type="submit" value="Validate"
+                        class="btn btn-primary col fileinput-button dz-clickable">Submit</button>
+                </div>
+            </div>
+
+        </form>
+        <div>
+
+        </div>

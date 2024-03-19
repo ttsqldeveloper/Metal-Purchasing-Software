@@ -1,0 +1,271 @@
+@model MPA.Models.CreateOrderPageVM
+
+@{
+ViewData["Title"] = "Edit Order";
+}
+
+<form asp-action="CreateOrder" enctype="multipart/form-data" class="">
+    <div class="card card-primary mb-5 card-outline">
+        <div class="card-header">
+            <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Create An Order</h3>
+                <a asp-action="Index" class="btn btn-light">Cancel</a>
+            </div>
+        </div>
+        <div class="col-md-12 card-body">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="">Supplier</label>
+                    @Html.DropDownListFor(q => q.OrderVM.SupplierId, new SelectList(Model.SupplierList, "Value",
+                    "Text"), " Please Select Supplier",
+                    new { @class = "form-control", @required = "required" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="OrderVM.ExpectedDate" for="required-delivery-date"></label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" placeholder="Please enter date" asp-for="OrderVM.ExpectedDate"
+                            class="form-control datetimepicker-input" data-toggle="datetimepicker"
+                            data-target="#reservationdate" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="OrderVM.LMERule" class="control-label"></label>
+                    <select asp-for="OrderVM.LMERule" required asp-items="@MPA.Utility.Helper.GetLMERuleDropDown()"
+                        class="form-control">
+                        <option value="">Please Select LME Rule</option>
+                    </select>
+                    <span asp-validation-for="OrderVM.LMERule" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    <label asp-for="OrderVM.PaymentTerms" class="control-label"></label>
+
+                    <div class="custom-control custom-radio">
+                        <input asp-for="OrderVM.isCustomPaymentTerms" class="custom-control-input" type="radio"
+                            id="customRadio1" checked="" value="false">
+                        <label for="customRadio1" class="custom-control-label">Default Payment Terms</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input asp-for="OrderVM.isCustomPaymentTerms" class="custom-control-input" type="radio"
+                            id="customRadio2" value="true">
+                        <label for="customRadio2" class="custom-control-label">Custom Payment Terms</label>
+
+                        (
+                        <input asp-for="OrderVM.PaymentTerms" placeholder="" type="number" class="" id="price-per-ton"
+                            step="any" value="" />
+                        ) Delivery Days
+
+                    </div>
+
+                    <!--     asp-items="@MPA.Utility.Helper.GetPaymentTermsDropDown()" class="form-control"> -->
+                    <!--     <option value="">Please Select Payment Terms</option> -->
+                    <!-- </select> -->
+                    <span asp-validation-for="OrderVM.PaymentTerms" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="alloy-list">
+
+        @for(int i = 0; i < Model.AlloyOrderList.Count(); i++ ) { <div
+            class="card card-primary alloy-order mb-4 card-outline">
+            <div class="col-md-12 card-body">
+
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 d-flex ">
+                        <label for="inputState"> @Html.DisplayNameFor(model =>
+                            model.AlloyOrderVM.Area)</label>
+
+                        <div class="ml-3 custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="area@i" name="AlloyOrderList[@i].Area"
+                                value="Rolled" checked="">
+                            <label for="area@i" class="custom-control-label">Rolled</label>
+                        </div>
+
+                        <div class="ml-3 custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="areaa@i" name="AlloyOrderList[@i].Area"
+                                value="Extrusion">
+                            <label for="areaa@i" class="custom-control-label">Extrusion</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class=" form-row">
+                    <div class="form-group col-md-6">
+                        <label for=""> @Html.DisplayNameFor(model => model.AlloyOrderVM)</label>
+                        <select asp-for="@Model.AlloyOrderList[@i].AlloyId" value="@Model.AlloyOrderList[i].AlloyId"
+                            id="inputState" required class="form-control">
+                            <option>Please Select Alloy</option>
+                            @for(var j = 0; j < Model.AlloyList.Count(); j++) {<option
+                                value="@Model.AlloyList.ElementAt(j).Value"> @Model.AlloyList.ElementAt(j).Text
+                                </option>}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="order-mass"> @Html.DisplayNameFor(model => model.AlloyOrderVM.Mass)</label>
+                        <input placeholder="Please enter number" name="AlloyOrderList[@i].Mass"
+                            value="@Model.AlloyOrderList[i].Mass" type="number" class="form-control" id="order-mass"
+                            step="any" required value="" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="AlloyOrderVM.PricePerMass" for="price-per-ton"></label>
+                        <input placeholder="Please enter number" value="@Model.AlloyOrderList[@i].PricePerMass"
+                            name="AlloyOrderList[@i].PricePerMass" type="number" class="loan-input form-control"
+                            id="price-per-ton" required step="any" value="" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="rulling-lme"> @Html.DisplayNameFor(model =>
+                            model.AlloyOrderVM.RullingLME)</label>
+                        <input placeholder="Please enter number" type="number"
+                            value="@Model.AlloyOrderList[@i].RullingLME" name="AlloyOrderList[@i].RullingLME"
+                            class="form-control" id="rulling-lme" required step="any" value="" />
+                    </div>
+                </div>
+
+            </div>
+    </div>
+
+
+    }
+
+
+    </div>
+
+    <div class="form-row d-flex">
+        <div class="form-group col-md-2 ml-auto">
+            <span class="btn btn-success col fileinput-button dz-clickable" id="add-alloy-btn">
+                <i class="fas fa-plus"></i>
+                <span>Alloy</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-row py-1 d-flex">
+        <div class="form-group col-md-2 mr-auto ">
+            <button type="submit" value="Validate"
+                class="btn btn-primary col fileinput-button dz-clickable">Submit</button>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+
+<script src="~/plugins/select2/js/select2.full.min.js"></script>
+<script src="~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script src="~/plugins/moment/moment.min.js"></script>
+<script src="~/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="~/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="~/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<script src="~/plugins/dropzone/min/dropzone.min.js"></script>
+
+
+<script>
+
+    $(function () {
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L',
+            minDate: new Date(),
+        });
+
+        /* //Date range picker */
+        /* $('#reservation').daterangepicker() */
+        /* //Date range picker with time picker */
+
+        /* <div class="alert alert-dismissible callout callout-info mt-5 alloy-item" > */
+        /* //Timepicker */
+        /* $('#timepicker').datetimepicker({ */
+        /*   format: 'LT' */
+        /* }) */
+
+    })
+
+    $(function () {
+
+        function AddAlloy() {
+            var i = $(".alloy-order").length;
+            var n = `
+
+<div class="card card-primary alloy-order mb-4 card-outline">
+  <div class="col-md-12 card-body">
+
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+<div class="form-row">
+<div class="form-group col-md-12 d-flex ">
+          <label for="inputState"> @Html.DisplayNameFor(model => model.AlloyOrderVM.Area)</label>
+
+                        <div class="ml-3 custom-control custom-radio">
+   <input class="custom-control-input" type="radio" id="area${i}" name="AlloyOrderList[${i}].Area" value="Rolled" checked="">
+
+   <label for="area${i}" class="custom-control-label">Rolled</label>
+                        </div>
+
+                        <div class="ml-3 custom-control custom-radio">
+   <input class="custom-control-input" type="radio" id="areaa${i}" name="AlloyOrderList[${i}].Area" value="Extrusion" >
+   <label for="areaa${i}" class="custom-control-label">Extrusion</label>
+                        </div>
+
+        </div>
+                    </div>
+
+
+        <div class=" form-row">
+            <div class="form-group col-md-6">
+              <label for=""> @Html.DisplayNameFor(model => model.AlloyOrderVM)</label>
+    <select asp-for="Area" name="AlloyOrderList[${i}].AlloyId"  id="inputState" required class="form-control">
+        <option>Please Select Alloy</option> 
+        @for(var i = 0; i < Model.AlloyList.Count(); i++)
+            {<option value="@Model.AlloyList.ElementAt(i).Value"> @Model.AlloyList.ElementAt(i).Text </option>}
+                  </select>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="order-mass"> @Html.DisplayNameFor(model => model.AlloyOrderVM.Mass)</label>
+              <input asp-for="OrderMass" placeholder="Please enter number" name="AlloyOrderList[${i}].Mass" type="number" class="form-control" id="order-mass" step="any" required value="" /> 
+            </div>
+      </div>
+
+      <div class="form-row">
+            <div class="form-group col-md-6">
+              <label asp-for="PricePerMass" for="price-per-ton"> @Html.DisplayNameFor(model => model.AlloyOrderVM.PricePerMass)</label>
+              <input asp-for="PricePerMass" placeholder="Please enter number" name="AlloyOrderList[${i}].PricePerMass" asp-format="{0:C}" type="number" class="loan-input form-control" id="price-per-ton" required step="any" value=""  /> 
+            </div>
+        <div class="form-group col-md-6">
+          <label asp-for="RullingLME" for="rulling-lme"> @Html.DisplayNameFor(model => model.AlloyOrderVM.RullingLME)</label>
+              <input placeholder="Please enter number" asp-for="RullingLME" type="number" name="AlloyOrderList[${i}].RullingLME" class="form-control" id="rulling-lme" required step="any" value="" /> 
+        </div>
+        </div>
+
+</div>
+</div>
+`
+            $("#alloy-list").append(n);
+        }
+
+        $("#add-alloy-btn").click(AddAlloy);
+
+    });
+
+
+</script>
+}
+

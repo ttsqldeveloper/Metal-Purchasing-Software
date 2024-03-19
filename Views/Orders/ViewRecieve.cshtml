@@ -1,0 +1,191 @@
+@model MPA.Models.ViewRecievePageVM
+@using MPA.Data;
+
+@{
+ViewData["Title"] = "Add New Tenants";
+}
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0"> Recieve Order Number <small>@Model.OrderVM.OrderNumber</small> From
+                    @Model.OrderVM.Supplier.Name </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <a asp-action="Index" class="btn btn-light float-sm-right">Cancel</a>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<p>The Order is form <b> @Model.OrderVM.Supplier.Name </b> created on @Model.OrderVM.Date.ToString("dd MMMM yyyy") </p>
+<p>The Expected Delivery date is <b> @Model.OrderVM.ExpectedDate.ToString("dd MMMM yyyy") </b> under
+    @Model.OrderVM.PaymentTerms Days Delivery terms</p>
+
+<!-- <div class="card card-primary mb-5 card-outline"> -->
+<!--     <div class="card-header"> -->
+<!--         <div class="wrapper-inner-card d-flex justify-content-between align-items-center"> -->
+<!--             <h4 class="card-title">Order Information</h4> -->
+<!---->
+<!--             <a asp-action="Index" class="btn btn-light">Cancel</a> -->
+<!---->
+<!--         </div> -->
+<!--     </div> -->
+<!--     <div class="col-md-12 card-body"> -->
+<!--         <table class="table table"> -->
+<!--             <thead> -->
+<!--                 <tr> -->
+<!--                     <th>Supplier</th> -->
+<!--                     <th>LME Rule</th> -->
+<!--                     <th>Required Delivery Date</th> -->
+<!--                     <th>Payment Terms</th> -->
+<!--                 </tr> -->
+<!--             </thead> -->
+<!--             <tbody> -->
+<!--                 <tr> -->
+<!--                     <td> @Html.DisplayFor(model => model.OrderVM.Supplier.Name) </td> -->
+<!--                     <td> @Html.DisplayFor(model => model.OrderVM.LMERule) </td> -->
+<!--                     <td> @Model.OrderVM.ExpectedDate.ToString("dd MMMM yyyy") </td> -->
+<!--                     <td> @Html.DisplayFor(model => model.OrderVM.PaymentTerms) Days Delivery </td> -->
+<!--                 </tr> -->
+<!--             </tbody> -->
+<!--         </table> -->
+<!--     </div> -->
+</div>
+
+
+<h5 class="pt-1">Alloys</h5>
+
+
+<form class="mb-5" asp-action="SendReceivedOrder" enctype="multipart/form-data" class="">
+
+    <div class="d-none form-group col-md-6">
+        <label for="price-per-ton"> @Html.DisplayNameFor(model =>
+            model.OrderVM.OrderNumber)</label>
+        <div class="input-group">
+            <input asp-for="OrderVM.OrderNumber" type="number" class="loan-input form-control" id="price-per-ton"
+                required step="any" />
+        </div>
+    </div>
+
+    <div class="py-4">
+
+        @for (int i = 0; i < Model.AlloyOrderList.Count(); i++) { <div class="card card-primary mb-4 card-outline">
+            <div class="card-header">
+                <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">
+                        <span class="text-secondary"> Material Name:</span>
+                        <span class="font-weight-bold">@Model.AlloyOrderList[i].Alloy.Material</span>
+                        &nbsp; &nbsp;&nbsp;
+                        <span class="text-secondary"> Material Code: </span>
+                        <span class="font-weight-bold">@Model.AlloyOrderList[i].Alloy.Code </span>
+                        &nbsp; &nbsp;&nbsp;
+                        <span class="text-secondary"> Orderd Mass: </span>
+                        <span class="font-weight-bold"> @String.Format("{0:n2}", @Model.AlloyOrderList[i].Mass)
+                            Kg</span>
+                        &nbsp; &nbsp;&nbsp;
+                        <span class="text-danger"> Outstanding: </span>
+                        <span class="font-weight-bold"> @String.Format("{0:n2}",
+                            @Model.AlloyOrderList[i].OutstandingMass)
+                            Kg</span>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-md-12 card-body">
+                <div class="form-row">
+                    <div class="d-none form-group col-md-4">
+                        <input value="@Model.AlloyOrderList[i].Id" name="ReceivedAlloyOrderList[@i].AlloyOrderId"
+                            type="number" required />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="ReceivedAlloyOrderVM.SupplierMass" for="order-mass"></label>
+                        <div class="input-group">
+                            <input asp-for="ReceivedAlloyOrderVM.SupplierMass"
+                                name="ReceivedAlloyOrderList[@i].SupplierMass" data-mask
+                                placeholder="Please enter number" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="ReceivedAlloyOrderVM.Mass" for="order-mass"></label>
+                        <div class="input-group">
+                            <input asp-for="ReceivedAlloyOrderVM.Mass" type="number"
+                                name="ReceivedAlloyOrderList[@i].Mass" step="any" placeholder="Please enter a number"
+                                class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="ReceivedAlloyOrderVM.ReturnedMass" for="order-mass"></label>
+                        <div class="input-group">
+                            <input asp-for="ReceivedAlloyOrderVM.Mass" name="ReceivedAlloyOrderList[@i].ReturnedMass"
+                                step="any" type="number" class="form-control" placeholder="Please enter a number"
+                                required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    }
+    </div>
+    <div class="card card-primary mb-5 card-outline">
+        <div class="col-md-12 card-body">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="ReceivedOrderVM.TruckRegistration" for="order-mass"></label>
+                    <div class="input-group see">
+                        <input asp-for="ReceivedOrderVM.TruckRegistration" type="text"
+                            placeholder="Enter Car Registration" class="form-control" required />
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="ReceivedOrderVM.CopalcorGin" for="copalcor-gin"></label>
+                    <div class="input-group">
+                        <input asp-for="ReceivedOrderVM.CopalcorGin" type="text" id="copalcor-gin"
+                            placeholder="Enter coplacor gin" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label asp-for="ReceivedOrderVM.Note" for="order-mass"></label>
+                    <div class="input-group">
+                        <input asp-for="ReceivedOrderVM.Note" type="text" placeholder="Please Type Something"
+                            class="form-control" id="order-mass" required />
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row">
+            </div>
+
+            <div class="form-row">
+
+                <input asp-for="OrderVM.OrderNumber" class="d-none" value="@Model.OrderVM.OrderNumber" />
+                <input asp-for="AlloyOrderList" class="d-none" value="@Model.AlloyOrderList" />
+
+                <div class="form-group col-md-12">
+                    <label asp-for="ReceivedOrderVM.MaterialPacked" for="order-mass"></label>
+                    <div class="input-group">
+                        <textarea asp-for="ReceivedOrderVM.MaterialPacked" class="form-control"
+                            placeholder="Type Note .." rows="3"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Recieve Order</button>
+
+</form>
+
+
+@section Scripts{
+
+<script>
+
+    $(function () {
+
+        $('[data-mask]').inputmask()
+    });
+</script>
+}

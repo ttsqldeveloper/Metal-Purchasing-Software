@@ -1,0 +1,73 @@
+@model MPA.Models.CreateSupplierPageVM
+
+@{
+ViewData["Title"] = "Add New Supplier";
+}
+<div class="card card-primary mb-5 card-outline">
+    <div class="card-header">
+        <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+            <h3 class="card-title">New Supplier</h3>
+            <a asp-action="Index" class="btn btn-light">Cancel</a>
+        </div>
+    </div>
+    <div class="col-md-12 card-body">
+        <form asp-action="Create" enctype="multipart/form-data" class="">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="SupplierVM.Name" for="name"></label>
+                    <div class="input-group">
+                        <input asp-for="SupplierVM.Name" type="Name" required class="form-control">
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="SupplierVM.SpokePerson" for="name"></label>
+                    <div class="input-group">
+                        <input asp-for="SupplierVM.SpokePerson" type="name" required class="form-control">
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="SupplierVM.PaymentTerms" for="name"></label>
+                    <select asp-for="SupplierVM.PaymentTerms" required
+                        asp-items="@MPA.Utility.Helper.GetPaymentTermsDropDown()" class="form-control">
+                        <option value="">Please Select Payment Terms</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <span>The first email is the default emails </span> -->
+            <div id="email-list">
+                <div class="form-row email">
+                    <div class="form-group col-md-12">
+                        <label for="email">Enter Emails (Seperated by comma)</label>
+                        <div class="input-group">
+                            <input asp-for="Emails" type="text" required
+                                class="form-control" placeholder="Ex: hello@@hi.com,bye@@gone.com">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row py-1 d-flex">
+                <div class="form-group col-md-2 mr-auto ">
+                    <button type="submit" value="Validate"
+                        class="btn btn-primary col fileinput-button dz-clickable">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+
+<script>
+    $(function () {
+
+
+        AddAlloy();
+
+
+    });
+
+</script>
+}

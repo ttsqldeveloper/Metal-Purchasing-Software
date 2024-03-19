@@ -1,0 +1,139 @@
+@model MPA.Models.CreateOrderPageVM
+
+@{
+ViewData["Title"] = "Add New Tenants";
+}
+
+<div class="card card-primary mb-5 card-outline">
+    <div class="card-header">
+        <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+            <h3 class="card-title">Order Overview</h3>
+            <a asp-action="Index" class="btn btn-light">Cancel</a>
+        </div>
+    </div>
+    <div class="col-md-12 card-body">
+        <table class="table table">
+            <thead>
+                <tr>
+                    <th>#Order</th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.Date) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.Supplier) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.LMERule) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.ExpectedDate) </th>
+                    <th> @Html.DisplayNameFor(model => model.OrderVM.PaymentTerms) </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(model => model.OrderVM.OrderNumber) </td>
+                    <td>@Model.OrderVM.Date.ToString("dd MMMM yyyy") </td>
+                    <td>@Html.DisplayFor(model => model.OrderVM.Supplier.Name) </td>
+                    <td>@Html.DisplayFor(model => model.OrderVM.LMERule) </td>
+                    <td>@Model.OrderVM.ExpectedDate.ToString("dd MMMM yyyy") </td>
+                    <td> @Html.DisplayFor(model => model.OrderVM.PaymentTerms) Days Delivery </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+
+        <h5 class="pt-4">Alloy Order</h5>
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Item Code</th>
+                    <th>Mass</th>
+                    <th>Area</th>
+                    <th>Price Per Ton</th>
+                    <th>LME Rule</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AlloyOrderList)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Alloy.Material)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Alloy.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mass) Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area)
+                    </td>
+                    <td>
+                        R @Html.DisplayFor(modelItem => item.PricePerMass)
+                    </td>
+                    <td>
+                        R @Html.DisplayFor(modelItem => item.RullingLME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h5 class="pt-4"> Received Alloy Order</h5>
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Alloy</th>
+                    <th>Code</th>
+                    <th>Date</th>
+                    <th>Booked In Mass</th>
+                    <th>Supplier Mass</th>
+                    <th>Copalcor Weigbridge Mass</th>
+                    <th>Returned Mass</th>
+                    <!-- <th>Item Code</th> -->
+                    <!-- <th>Mass</th> -->
+                    <!-- <th>Area</th> -->
+                    <!-- <th>Price Per Ton</th> -->
+                    <!-- <th>LME Rule</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ReceivedAlloyOrderVMs.Count(); i++) { <tr>
+                    <td>
+                        @Model.ReceivedAlloyOrderVMs[i].AlloyOrder.Alloy.Material
+
+                    </td>
+                    <td>
+                        @Model.ReceivedAlloyOrderVMs[i].AlloyOrder.Alloy.Code
+                    </td>
+                    <td>
+                        @Model.ReceivedAlloyOrderVMs[i].ReceivedOrder.Date.ToString("dd MMMM yyyy")
+                    </td>
+                    <td>
+                        @Math.Round(Math.Abs( Model.ReceivedAlloyOrderVMs[i].Mass -
+                        @Model.ReceivedAlloyOrderVMs[i].ReturnedMass ), 0) Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor( ii => Model.ReceivedAlloyOrderVMs[i].SupplierMass) Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor( ii => Model.ReceivedAlloyOrderVMs[i].Mass) Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor( ii => Model.ReceivedAlloyOrderVMs[i].ReturnedMass) Kg
+                    </td>
+                    </tr>
+
+                    }
+            </tbody>
+        </table>
+
+
+        <div>
+
+        </div>

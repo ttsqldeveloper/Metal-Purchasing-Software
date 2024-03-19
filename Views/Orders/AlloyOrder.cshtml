@@ -1,0 +1,49 @@
+@model MPA.Models.AlloyOrderVM
+
+<div class="alloy-item" >
+        <span>x</span>
+
+        <div class="form-row">
+            <div class="form-group col-md-5">
+              <label asp-for="AlloyId" for="alloy-id"></label>
+               @Html.DropDownListFor(q => q.AlloyId, new SelectList(Model.AlloyList, "Value", "Text"), "Select MaterialGrade",
+                new { @class = "form-control", @required = "required"  })
+            </div>
+            <div class="form-group col-md-6">
+              <label asp-for="Mass" for="order-mass"></label>
+              <input asp-for="Mass" type="number" class="form-control" id="order-mass" step="any" required value="" /> 
+            </div>
+      </div>
+
+      <div class="form-row">
+            <div class="form-group col-md-6">
+              <label asp-for="PricePerMass" for="price-per-ton"></label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas ">R</i></span>
+            </div>
+              <input asp-for="PricePerMass" type="number" class="loan-input form-control" id="price-per-ton" required step="any" value=""  /> 
+          </div>
+            </div>
+        <div class="form-group col-md-6">
+          <label asp-for="RullingLME" for="rulling-lme"></label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas ">R</i></span>
+            </div>
+              <input asp-for="RullingLME" type="number" asp-format="{0:C}"  class="form-control" id="rulling-lme" required step="any" value="" /> 
+          </div>
+        </div>
+        </div>
+
+        <div class="form-row">
+        <div class="form-group col-md-6">
+          <label asp-for="Area" for="inputState"></label>
+          <select asp-for="Area" id="inputState" required class="form-control">
+            <option>Extrusion</option>
+            <option>Rolled</option>
+          </select>
+        </div>
+        </div>
+
+</div>

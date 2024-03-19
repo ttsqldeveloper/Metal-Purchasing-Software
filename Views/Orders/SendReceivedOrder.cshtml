@@ -1,0 +1,25 @@
+@model MPA.Models.CreateSupplierPageVM
+
+<div class="error-page">
+
+        <div class="error-content">
+          <h3><i class="fas fa-check text-success"></i> Order has been received successful!</h3>
+
+          <p>
+          Order Number <span class="font-weight-bold">@Model.OrderVM.OrderNumber</span> has been received and The Supplier <span class="font-weight-bold">@Model.OrderVM.Supplier.Name </span> has been Notified trought the
+          following emails 
+
+      @foreach (var item in Model.EmailList)
+      {
+      <span class="text-primary"> @Html.DisplayFor(modelItem => item.Email) </span>
+
+      }
+
+
+          </p>
+
+          <button type="button" class="btn"><a class="btn btn-primary"  asp-action="Index">View Orders</a></button>
+
+        </div>
+        <!-- /.error-content -->
+      </div>

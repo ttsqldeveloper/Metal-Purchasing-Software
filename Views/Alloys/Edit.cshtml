@@ -1,0 +1,47 @@
+@model MPA.Models.AlloyVM
+
+@{
+    ViewData["Title"] = "Add New Supplier";
+}
+
+
+<div class="card card-primary mb-5 card-outline">
+  <div class="card-header">
+    <div class="wrapper-inner-card d-flex justify-content-between align-items-center">
+      <h3 class="card-title">Edit Alloy</h3>
+
+    <a asp-action="Index" class="btn btn-light" >Cancel</a>
+
+    </div>
+  </div>
+  <div class="col-md-12 card-body">
+
+
+  <form asp-action="Edit" enctype="multipart/form-data" class="">
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label asp-for="Material" for="name"></label>
+          <div class="input-group">
+              <input asp-for="Material" type="Name"  required class="form-control" >
+          </div>
+        </div>
+<div class="form-group col-md-6">
+          <label asp-for="Code" for="ItemCode"></label>
+          <div class="input-group">
+              <input asp-for="Code" type="number"  required class="form-control" >
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row py-1 d-flex">
+        <div class="form-group col-md-2 mr-auto ">
+<button type="submit"  value="Validate"  class="btn btn-primary col fileinput-button dz-clickable">Submit</button>
+        </div>
+        </div>
+
+
+    </form>
+
+  </div>
+  </div>
